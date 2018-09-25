@@ -31,6 +31,11 @@ public class Contract {
         this.priceTable = priceTable;
     }
 
+    public Contract(PriceTable priceTable) {
+        this.cropType = CropType.SoyBean;
+        this.priceTable = priceTable;
+    }
+
     public CropType getCropType() {
         return cropType;
     }

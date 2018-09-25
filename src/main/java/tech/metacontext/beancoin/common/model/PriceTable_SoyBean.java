@@ -50,11 +50,11 @@ public class PriceTable_SoyBean extends PriceTable {
     @Override
     public int getLevel(double... params) {
         if (params[0] < 0 || params[0] > 3.5) {
-            System.out.println("夾雜率超標");
+            out.println("夾雜率超標");
             return -1;
         }
         if (params[1] < 11 || params[1] > 25) {
-            System.out.println("含水率超標");
+            out.println("含水率超標");
             return -1;
         }
         int x = (int) (params[0] / 0.5);

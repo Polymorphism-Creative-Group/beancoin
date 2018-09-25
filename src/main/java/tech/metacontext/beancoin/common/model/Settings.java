@@ -15,13 +15,31 @@
  */
 package tech.metacontext.beancoin.common.model;
 
+import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Jonathan Chang, Chun-yien <ccy@musicapoetica.org>
  */
 public class Settings {
+
+    public static final Logger logger = Logger.getLogger("Bean Coin Commons");
+    public static PrintStream out;
+
+    static {
+        try {
+            out = new PrintStream(System.out, true, "UTF-8");
+        } catch (UnsupportedEncodingException ex) {
+            logger.log(Level.SEVERE, null, ex);
+        }
+    }
 
     public static final double unit_production = 3000.0;
     public static final double unit_production_variation = 300.0;
@@ -39,6 +57,17 @@ public class Settings {
     public static final String[] default_level_label = {
         "頂級", "特級", "優級", "良級"
     };
+
+    public static final List<Material> materials
+            = new ArrayList<>(Arrays.asList(
+                    new Material[]{
+                        new Material("肥料：台肥一號", 4000.0),
+                        new Material("種子", 4800.0),
+                        new Material("生物防治", 15000.0),
+                        new Material("代耕費", 36200.0),
+                        new Material("古特菌", 1000.0),
+                        new Material("生物鈣", 500.0)
+                    }));
 
     public static double field_production_adjust(double size) {
         return 1.0 - new Random().nextDouble() * size / 2.5;

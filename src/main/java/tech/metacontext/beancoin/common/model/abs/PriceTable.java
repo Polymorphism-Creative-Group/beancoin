@@ -15,6 +15,8 @@
  */
 package tech.metacontext.beancoin.common.model.abs;
 
+import static tech.metacontext.beancoin.common.model.Settings.*;
+
 /**
  *
  * @author Jonathan Chang, Chun-yien <ccy@musicapoetica.org>
@@ -29,7 +31,7 @@ public abstract class PriceTable {
         this.prices = new double[levelNum];
         for (int i = 0; i < levelNum; i++) {
             this.prices[i] = prices[i];
-            System.out.println("Level " + i + ", price set to " + this.prices[i]);
+            out.println("Level " + i + ", price set to " + this.prices[i]);
         }
     }
 

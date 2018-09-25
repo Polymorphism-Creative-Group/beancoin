@@ -22,6 +22,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import static tech.metacontext.beancoin.common.model.Settings.out;
 
 /**
  *
@@ -64,7 +65,7 @@ public class FieldTest {
      */
     @Test
     public void testGetSize() {
-        System.out.println("getSize");
+        out.println("getSize");
         double expResult = size;
         double result = instance.getSize();
         assertEquals(expResult, result, 0.0);
@@ -75,7 +76,7 @@ public class FieldTest {
      */
     @Test
     public void testSetSize() {
-        System.out.println("setSize");
+        out.println("setSize");
         instance.setSize(size);
         double result = instance.getSize();
         assertEquals(size, result, 0.0);
@@ -86,13 +87,13 @@ public class FieldTest {
      */
     @Test
     public void testProduce() {
-        System.out.println("produce");
+        out.println("produce");
         Crop_SoyBean result = instance.produce();
         assertNotNull(result);
-        System.out.println("Production = " + result.getAmount() + " kg");
-        System.out.println("Moisture = " + result.getMoisture());
-        System.out.println("Impurity = " + result.getImpurity());
-        System.out.println("Turbidity = " + result.getTurbidity());
+        out.println("Production = " + result.getAmount() + " kg");
+        out.println("Moisture = " + result.getMoisture());
+        out.println("Impurity = " + result.getImpurity());
+        out.println("Turbidity = " + result.getTurbidity());
     }
 
 }

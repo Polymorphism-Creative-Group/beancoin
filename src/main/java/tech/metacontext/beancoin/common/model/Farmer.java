@@ -28,13 +28,14 @@ public class Farmer<C extends Crop> extends Member {
 
     private Field<C> field;
     private double cash;
-    private double beanCoin;
+    private BeanCoin beanCoin;
+    private boolean equippedIoT;
 
     public Farmer(String id, Contract contract, Field<C> field) {
         super(id, contract);
         this.field = field;
         this.cash = 60000.0 * field.getSize();
-        this.beanCoin = 60000.0 * field.getSize();
+        this.beanCoin = new BeanCoin(0.0);
     }
 
     public Field<C> getField() {
@@ -53,12 +54,20 @@ public class Farmer<C extends Crop> extends Member {
         this.cash = cash;
     }
 
-    public double getBeanCoin() {
+    public BeanCoin getBeanCoin() {
         return beanCoin;
     }
 
-    public void setBeanCoin(double beanCoin) {
+    public void setBeanCoin(BeanCoin beanCoin) {
         this.beanCoin = beanCoin;
+    }
+
+    public boolean isEquippedIoT() {
+        return equippedIoT;
+    }
+
+    public void setEquippedIoT(boolean equippedIoT) {
+        this.equippedIoT = equippedIoT;
     }
 
 }

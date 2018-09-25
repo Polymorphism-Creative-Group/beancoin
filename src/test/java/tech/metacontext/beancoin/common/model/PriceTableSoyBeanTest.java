@@ -15,14 +15,13 @@
  */
 package tech.metacontext.beancoin.common.model;
 
-import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import static tech.metacontext.beancoin.common.model.Settings.*;
 
 /**
  *
@@ -33,8 +32,7 @@ public class PriceTableSoyBeanTest {
     PriceTable_SoyBean instance = PriceTable_SoyBean.getInstance();
 //    PrintStream out;
 
-    public PriceTableSoyBeanTest() throws UnsupportedEncodingException {
-//        out = new PrintStream(System.out, true, "UTF-8");
+    public PriceTableSoyBeanTest() {
     }
 
     @BeforeClass
@@ -58,7 +56,7 @@ public class PriceTableSoyBeanTest {
      */
     @Test
     public void testGetLevel() {
-        System.out.println("getLevel");
+        out.println("getLevel");
         double[][] params = {
             {0, 11},
             {0.5, 15},
@@ -70,12 +68,9 @@ public class PriceTableSoyBeanTest {
             double[] param = params[i];
             int result = instance.getLevel(param);
             assertEquals(expResult[i], result);
-            System.out.println(
-                    "Test params = " + param[0]
-                    + ", " + param[1]
-                    + ", level = " + instance.getLevelLabel(result)
-                    + ", price = " + instance.getPrice(result, 1)
-            );
+            out.printf("Test params = %.1f, %.1f, level = %s, price = %.0f\n",
+                    param[0], param[1],
+                    instance.getLevelLabel(result), instance.getPrice(result, 1));
         }
     }
 
@@ -84,7 +79,7 @@ public class PriceTableSoyBeanTest {
      */
     @Test
     public void testAdjust() {
-        System.out.println("adjust");
+        out.println("adjust");
         int param;
         double expResult;
         param = 4;
