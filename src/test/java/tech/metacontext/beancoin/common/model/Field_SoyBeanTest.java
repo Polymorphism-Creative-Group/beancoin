@@ -21,6 +21,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import tech.metacontext.beancoin.common.model.abs.Crop;
+import tech.metacontext.beancoin.common.model.abs.Field;
 
 /**
  *
@@ -28,50 +30,49 @@ import static org.junit.Assert.*;
  */
 public class Field_SoyBeanTest {
 
-    Field_SoyBean instance = new Field_SoyBean(1.0);
-    double size = 1.0;
+   Field_SoyBean instance = new Field_SoyBean(1.0);
+   double size = 1.0;
 
-    public Field_SoyBeanTest() {
-    }
+   public Field_SoyBeanTest() {
+   }
 
-    @BeforeClass
-    public static void setUpClass() {
-    }
+   @BeforeClass
+   public static void setUpClass() {
+   }
 
-    @AfterClass
-    public static void tearDownClass() {
-    }
+   @AfterClass
+   public static void tearDownClass() {
+   }
 
-    @Before
-    public void setUp() {
-    }
+   @Before
+   public void setUp() {
+   }
 
-    @After
-    public void tearDown() {
-    }
+   @After
+   public void tearDown() {
+   }
 
-    /**
-     * Test of produce method, of class SoyBeanField.
-     */
-    @Test
-    public void testProduce() {
-        System.out.println("produce");
-        Crop_SoyBean result = instance.produce();
-        assertNotNull(result);
-        System.out.println("Production = " + result.getAmount() + " kg");
-        System.out.println("Moisture = " + result.getMoisture());
-        System.out.println("Impurity = " + result.getImpurity());
-        System.out.println("Turbidity = " + result.getTurbidity());
-    }
+   /**
+    * Test of produce method, of class SoyBeanField.
+    */
+   @Test
+   public void testProduce() {
+      System.out.println("produce");
+      Crop_SoyBean result = instance.produce();
+      assertNotNull(result);
+      System.out.println("Production = " + result.getAmount() + " kg");
+      System.out.println("Moisture = " + result.getMoisture());
+      System.out.println("Impurity = " + result.getImpurity());
+      System.out.println("Turbidity = " + result.getTurbidity());
+   }
 
-    @Test
-    public void main() {
-        for (int i = 1; i <= 10; i++) {
-            System.out.print(i + ". ");
-            var field = new Field_SoyBean(i);
-            var crop = field.produce();
-            System.out.println(crop.getAmount() + " (" + crop.getAmount() / field.getSize() + ")");
-        }
-    }
+   @Test
+   public void main() {
+      for (int i = 1; i <= 10; i++) {
+         Field field = new Field_SoyBean(i);
+         Crop crop = field.produce();
+         System.out.println(i + ". " + crop.getAmount() + " (" + crop.getAmount() / field.getSize() + ")");
+      }
+   }
 
 }
