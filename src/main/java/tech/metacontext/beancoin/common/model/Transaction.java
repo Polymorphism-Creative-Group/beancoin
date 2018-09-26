@@ -15,6 +15,7 @@
  */
 package tech.metacontext.beancoin.common.model;
 
+import java.time.LocalDateTime;
 import tech.metacontext.beancoin.common.model.abs.Crop;
 import tech.metacontext.beancoin.common.model.abs.PriceTable;
 
@@ -24,13 +25,72 @@ import tech.metacontext.beancoin.common.model.abs.PriceTable;
  */
 public class Transaction {
 
-    Crop crop;
-    PriceTable priceTable;
-    double cash;
-    double beanCoin;
+    private String id;
+    final private String timestamp;
+    private Farmer farmer;
+    private Crop crop;
+    private double cash;
+    private double beancoin;
 
-    public Transaction(Crop crop, PriceTable priceTable) {
+    public Transaction(String id, Farmer farmer, Crop crop) {
+        this.id = id;
+        this.timestamp = LocalDateTime.now().toString();
+        this.farmer = farmer;
         this.crop = crop;
-        this.priceTable = priceTable;
+        PriceTable priceTable = farmer.getContract().getPriceTable();
+        this.cash = priceTable.getTotalPrice(crop);
+        this.beancoin = priceTable.getTotalBeancoin(priceTable.getLevel(crop), farmer);
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public Farmer getFarmer() {
+        return farmer;
+    }
+
+    public void setFarmer(Farmer farmer) {
+        this.farmer = farmer;
+    }
+
+    public Crop getCrop() {
+        return crop;
+    }
+
+    public void setCrop(Crop crop) {
+        this.crop = crop;
+    }
+
+    public double getCash() {
+        return cash;
+    }
+
+    public void setCash(double cash) {
+        this.cash = cash;
+    }
+
+    public double getBeancoin() {
+        return beancoin;
+    }
+
+    public void setBeancoin(double beanCoin) {
+        this.beancoin = beanCoin;
+    }
+
+    @Override
+    public String toString() {
+        String result = String.format("%s %s %s Production=%.1f kg, Cash = $%,.0f, Beancoin = %,.0f.",
+                this.timestamp, this.id, this.farmer.getId(), this.getCrop().getAmount(), this.getCash(), this.getBeancoin());
+        return result;
+    }
+
 }

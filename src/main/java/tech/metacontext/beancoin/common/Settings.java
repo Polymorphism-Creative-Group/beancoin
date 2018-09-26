@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import tech.metacontext.beancoin.common.model.Material;
 
@@ -30,7 +29,8 @@ import tech.metacontext.beancoin.common.model.Material;
 public class Settings {
 
     public static final Logger logger = Logger.getLogger("Bean Coin Commons");
-
+    public static final Random random = new Random();
+    
     public static final double unit_production = 3000.0;
     public static final double unit_production_variation = 300.0;
     public static final double[] default_prices = {47.0, 42.0, 39.0, 35.0};
@@ -54,12 +54,15 @@ public class Settings {
                         new Material("肥料-台肥一號", 4000.0),
                         new Material("種子", 4800.0),
                         new Material("生物防治", 15000.0),
-                        new Material("代耕費", 36200.0),
                         new Material("古特菌", 1000.0),
                         new Material("生物鈣", 500.0)
                     }));
+    // 代耕費
+    public static final double unitFarmingFee = 36200.0;
+
+    public static final double cashPerUnit = 60000.0;
 
     public static double field_production_adjust(double size) {
-        return 1.0 - new Random().nextDouble() * size / 2.5;
+        return 1.0 - random.nextDouble() * size / 2.5;
     }
 }

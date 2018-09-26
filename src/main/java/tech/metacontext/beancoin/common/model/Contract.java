@@ -15,40 +15,27 @@
  */
 package tech.metacontext.beancoin.common.model;
 
+import tech.metacontext.beancoin.common.model.abs.Crop;
 import tech.metacontext.beancoin.common.model.abs.PriceTable;
 
 /**
  *
  * @author Jonathan Chang, Chun-yien <ccy@musicapoetica.org>
+ * @param <C>
  */
-public class Contract {
+public class Contract<C extends Crop> {
 
-    private CropType cropType;
-    private PriceTable priceTable;
+    private PriceTable<C> priceTable;
 
-    public Contract(CropType type, PriceTable priceTable) {
-        this.cropType = type;
+    public Contract(PriceTable<C> priceTable) {
         this.priceTable = priceTable;
     }
 
-    public Contract(PriceTable priceTable) {
-        this.cropType = CropType.SoyBean;
-        this.priceTable = priceTable;
-    }
-
-    public CropType getCropType() {
-        return cropType;
-    }
-
-    public void setCropType(CropType type) {
-        this.cropType = type;
-    }
-
-    public PriceTable getPriceTable() {
+    public PriceTable<C> getPriceTable() {
         return priceTable;
     }
 
-    public void setPriceTable(PriceTable priceTable) {
+    public void setPriceTable(PriceTable<C> priceTable) {
         this.priceTable = priceTable;
     }
 

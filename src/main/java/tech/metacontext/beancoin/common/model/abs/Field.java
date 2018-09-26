@@ -15,7 +15,7 @@
  */
 package tech.metacontext.beancoin.common.model.abs;
 
-import tech.metacontext.beancoin.common.model.Material;
+import tech.metacontext.beancoin.common.model.Farmer;
 
 /**
  *
@@ -24,19 +24,19 @@ import tech.metacontext.beancoin.common.model.Material;
  */
 public abstract class Field<C extends Crop> {
 
-   private double size;
+    private double size;
 
-   public Field(double size) {
-      this.size = size;
-   }
+    public Field(double size) {
+        this.size = size;
+    }
 
-   public double getSize() {
-      return size;
-   }
+    public double getSize() {
+        return size;
+    }
 
-   public void setSize(double size) {
-      this.size = size;
-   }
+    public void setSize(double size) {
+        this.size = size;
+    }
 
-   public abstract C produce(Material... materials);
+    public abstract C produce(Farmer farmer);
 }

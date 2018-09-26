@@ -26,15 +26,19 @@ public interface API {
     public JSONObject createFarmer(JSONObject params);
 
     public JSONObject getFarmer(JSONObject params);
-    
+
     public JSONObject produceCrop(JSONObject params);
-    
+
     public JSONObject getManagementInfo(JSONObject params);
-    
+
     public JSONObject manageMaterial(JSONObject params);
-    
-    public JSONObject getTransaction(JSONObject params);
-    
-    public JSONObject setBeanCoinRate(JSONObject params);
-    
+
+    public JSONObject equipIoT(JSONObject params);
+
+    public JSONObject getMembers(JSONObject params);
+
+    public JSONObject getTransactions(JSONObject params);
+
+    public JSONObject setBeanCoinRatio(JSONObject params);
+
 }

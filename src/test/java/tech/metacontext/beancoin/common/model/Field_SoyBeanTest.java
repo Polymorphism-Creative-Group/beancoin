@@ -21,6 +21,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import static tech.metacontext.beancoin.common.Settings.materials;
 import tech.metacontext.beancoin.common.model.abs.Crop;
 import tech.metacontext.beancoin.common.model.abs.Field;
 
@@ -30,51 +31,66 @@ import tech.metacontext.beancoin.common.model.abs.Field;
  */
 public class Field_SoyBeanTest {
 
-   Field_SoyBean instance = new Field_SoyBean(1.0);
-   double size = 1.0;
+    Field_SoyBean instance = new Field_SoyBean(1.0);
+    Farmer farmer;
+    double size = 1.0;
 
-   public Field_SoyBeanTest() {
-   }
+    public Field_SoyBeanTest() {
+        farmer = new Farmer("TESTID", new Contract(PriceTable_SoyBean.getInstance()), instance);
+    }
 
-   @BeforeClass
-   public static void setUpClass() {
-   }
+    @BeforeClass
+    public static void setUpClass() {
+    }
 
-   @AfterClass
-   public static void tearDownClass() {
-   }
+    @AfterClass
+    public static void tearDownClass() {
+    }
 
-   @Before
-   public void setUp() {
-   }
+    @Before
+    public void setUp() {
+    }
 
-   @After
-   public void tearDown() {
-   }
+    @After
+    public void tearDown() {
+    }
 
-   /**
-    * Test of produce method, of class SoyBeanField.
-    */
-   @Test
-   public void testProduce() {
-      System.out.println("produce");
-      Crop_SoyBean result = instance.produce();
-      assertNotNull(result);
-      System.out.println("Production = " + result.getAmount() + " kg");
-      System.out.println("Moisture = " + result.getMoisture());
-      System.out.println("Impurity = " + result.getImpurity());
-      System.out.println("Turbidity = " + result.getTurbidity());
-   }
+    /**
+     * Test of produce method, of class SoyBeanField.
+     */
+    @Test
+    public void testProduce() {
+        System.out.println("produce");
+        Crop_SoyBean result = instance.produce(farmer);
+        assertNull(result);
+        farmer.addInventory(materials.get(0), size);
+        farmer.addInventory(materials.get(1), size);
+        farmer.addInventory(materials.get(2), size);
+        result = instance.produce(farmer);
+        assertNotNull(result);
+        System.out.println("Production = " + result.getAmount() + " kg");
+        System.out.println("Moisture = " + result.getMoisture());
+        System.out.println("Impurity = " + result.getImpurity());
+        System.out.println("Turbidity = " + result.getTurbidity());
+    }
 
-   @Test
-   public void main() {
-      System.out.println("main");
-      for (int i = 1; i <= 10; i++) {
-         Field field = new Field_SoyBean(i);
-         Crop crop = field.produce();
-         System.out.printf("size = %d, production = %.0f kg (%.1f kg/unit)\n",
-                 i, crop.getAmount(), crop.getAmount() / field.getSize());
-      }
-   }
+    @Test
+    public void main() {
+        System.out.println("main");
+        int n = 10;
+        farmer.addInventory(materials.get(0), 9);
+        farmer.addInventory(materials.get(1), 9);
+        farmer.addInventory(materials.get(2), 9);
+        for (int i = 1; i <= n; i++) {
+            Field field = new Field_SoyBean(i);
+            Crop crop = field.produce(farmer);
+            if (crop == null) {
+                System.out.printf("size = %d, no production due to the lack of materials.\n", i);
+            } else {
+                System.out.printf("size = %d, production = %.0f kg (%.1f kg/unit)\n",
+                        i, crop.getAmount(), crop.getAmount() / field.getSize());
+            }
+        }
+    }
 
 }

@@ -29,70 +29,71 @@ import static org.junit.Assert.*;
  */
 public class FieldTest {
 
-   Field<Crop_SoyBean> instance;
-   double size = 1.0;
+    Field<Crop_SoyBean> instance;
+    double size = 1.0;
 
-   public FieldTest() {
-      this.instance = new Field<Crop_SoyBean>(size) {
-         @Override
-         public Crop_SoyBean produce(Material... materials) {
-            double amount = this.getSize() * 3000;
-            Crop_SoyBean soyBean = new Crop_SoyBean(amount, 11, 1, 4);
-            return soyBean;
-         }
-      };
-   }
+    public FieldTest() {
+        this.instance = new Field<Crop_SoyBean>(size) {
+            @Override
+            public Crop_SoyBean produce(Farmer farmer) {
+                double amount = this.getSize() * 3000;
+                Crop_SoyBean soyBean = new Crop_SoyBean(amount, 11, 1, 4);
+                return soyBean;
+            }
+        };
+    }
 
-   @BeforeClass
-   public static void setUpClass() {
-   }
+    @BeforeClass
+    public static void setUpClass() {
+    }
 
-   @AfterClass
-   public static void tearDownClass() {
-   }
+    @AfterClass
+    public static void tearDownClass() {
+    }
 
-   @Before
-   public void setUp() {
-   }
+    @Before
+    public void setUp() {
+    }
 
-   @After
-   public void tearDown() {
-   }
+    @After
+    public void tearDown() {
+    }
 
-   /**
-    * Test of getSize method, of class Field.
-    */
-   @Test
-   public void testGetSize() {
-      System.out.println("getSize");
-      double expResult = size;
-      double result = instance.getSize();
-      assertEquals(expResult, result, 0.0);
-   }
+    /**
+     * Test of getSize method, of class Field.
+     */
+    @Test
+    public void testGetSize() {
+        System.out.println("getSize");
+        double expResult = size;
+        double result = instance.getSize();
+        assertEquals(expResult, result, 0.0);
+    }
 
-   /**
-    * Test of setSize method, of class Field.
-    */
-   @Test
-   public void testSetSize() {
-      System.out.println("setSize");
-      instance.setSize(size);
-      double result = instance.getSize();
-      assertEquals(size, result, 0.0);
-   }
+    /**
+     * Test of setSize method, of class Field.
+     */
+    @Test
+    public void testSetSize() {
+        System.out.println("setSize");
+        instance.setSize(size);
+        double result = instance.getSize();
+        assertEquals(size, result, 0.0);
+    }
 
-   /**
-    * Test of produce method, of class Field.
-    */
-   @Test
-   public void testProduce() {
-      System.out.println("produce");
-      Crop_SoyBean result = instance.produce();
-      assertNotNull(result);
-      System.out.println("Production = " + result.getAmount() + " kg");
-      System.out.println("Moisture = " + result.getMoisture());
-      System.out.println("Impurity = " + result.getImpurity());
-      System.out.println("Turbidity = " + result.getTurbidity());
-   }
+    /**
+     * Test of produce method, of class Field.
+     */
+    @Test
+    public void testProduce() {
+        System.out.println("produce");
+        Farmer farmer = new Farmer("TESTID", new Contract(PriceTable_SoyBean.getInstance()), instance);
+        Crop_SoyBean result = instance.produce(farmer);
+        assertNotNull(result);
+        System.out.println("Production = " + result.getAmount() + " kg");
+        System.out.println("Moisture = " + result.getMoisture());
+        System.out.println("Impurity = " + result.getImpurity());
+        System.out.println("Turbidity = " + result.getTurbidity());
+    }
 
 }

@@ -37,10 +37,16 @@ public class BeanCoin extends Currency {
         this.amount += cashToBeanCoin(cash);
         return this.amount;
     }
-    
+
     public double addAmount(double amount) {
         this.amount += amount;
         return this.amount;
+    }
+
+    public double spend(double amountSpent) {
+        double result = this.amount - amountSpent;
+        this.setAmount((result < 0) ? 0 : result);
+        return result;
     }
 
     public static double getRatio() {

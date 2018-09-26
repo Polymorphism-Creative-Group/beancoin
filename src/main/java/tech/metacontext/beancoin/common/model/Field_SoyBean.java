@@ -24,21 +24,55 @@ import tech.metacontext.beancoin.common.model.abs.Field;
  */
 public class Field_SoyBean extends Field<Crop_SoyBean> {
 
-   public Field_SoyBean(double size) {
-      super(size);
-   }
+    public Field_SoyBean(double size) {
+        super(size);
+    }
 
-   @Override
-   public Crop_SoyBean produce(Material... materials) {
-      
-      double amount = randomAmount();
-      Crop_SoyBean soyBean = new Crop_SoyBean(amount, 11, 1, 4);
-      return soyBean;
-   }
+    @Override
+    public Crop_SoyBean produce(Farmer farmer) {
+        if (!checkMaterial(farmer)) {
+            return null;
+        }
+        farmer.addInventory(materials.get(0), -this.getSize());
+        farmer.addInventory(materials.get(1), -this.getSize());
+        farmer.addInventory(materials.get(2), -this.getSize());
 
-   private double randomAmount() {
-      double r = field_production_adjust(this.getSize());
-      return Math.floor(this.getSize() * (unit_production + unit_production_variation * r));
-   }
+        double totalFarmingFee = unitFarmingFee * farmer.getField().getSize();
+        double farmingFee = BeanCoin.beanCoinToCash(
+                farmer.getBeanCoin().spend(BeanCoin.cashToBeanCoin(totalFarmingFee)));
+        farmer.spendCash(farmingFee);
+
+        double amount = randomAmount();
+        double moisture = randomMoisture();
+        double impurity = randomImpurity();
+        double turbidity = randomTurbidity();
+        
+        Crop_SoyBean soyBean = new Crop_SoyBean(amount, moisture, impurity, turbidity);
+        return soyBean;
+    }
+
+    private boolean checkMaterial(Farmer farmer) {
+        return ((double) (farmer.getInventory().get(materials.get(0))) >= this.getSize()
+                && (double) (farmer.getInventory().get(materials.get(1))) >= this.getSize()
+                && (double) (farmer.getInventory().get(materials.get(2))) >= this.getSize()
+                && farmer.getCash() + farmer.getBeanCoin().getCash() >= unitFarmingFee);
+    }
+
+    private double randomAmount() {
+        double r = field_production_adjust(this.getSize());
+        return Math.floor(this.getSize() * (unit_production + unit_production_variation * r));
+    }
+
+    private static double randomMoisture() {
+        return random.nextInt(25 - 10) + 11;
+    }
+
+    private static double randomImpurity() {
+        return 0.5 * random.nextInt(7);
+    }
+
+    private static double randomTurbidity() {
+        return random.nextInt(6) + 1;
+    }
 
 }

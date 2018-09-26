@@ -69,7 +69,7 @@ public class PriceTableSoyBeanTest {
             assertEquals(expResult[i], result);
             System.out.printf("Test params = %.1f, %.1f, level = %s, price = %.0f\n",
                     param[0], param[1],
-                    instance.getLevelLabel(result), instance.getPrice(result, 1));
+                    instance.getLevelLabel(result), instance.getUnitPrice(result, 1));
         }
     }
 

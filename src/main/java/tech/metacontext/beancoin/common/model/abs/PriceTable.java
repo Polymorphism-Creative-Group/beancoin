@@ -15,36 +15,41 @@
  */
 package tech.metacontext.beancoin.common.model.abs;
 
-import static tech.metacontext.beancoin.common.Settings.*;
+import tech.metacontext.beancoin.common.model.Farmer;
 
 /**
  *
  * @author Jonathan Chang, Chun-yien <ccy@musicapoetica.org>
+ * @param <C>
  */
-public abstract class PriceTable {
+public abstract class PriceTable<C extends Crop> {
 
-   protected int levelNum;  // Good: 0, 1, 2, 3... : Bad
-   protected double[] prices;
+    protected int levelNum;  // Good: 0, 1, 2, 3... : Bad
+    protected double[] prices;
 
-   public PriceTable(int levelNum, double... prices) {
-      this.levelNum = levelNum;
-      this.prices = new double[levelNum];
-      for (int i = 0; i < levelNum; i++) {
-         this.prices[i] = prices[i];
-         System.out.println("Level " + i + ", price set to " + this.prices[i]);
-      }
-   }
+    public PriceTable(int levelNum, double... prices) {
+        this.levelNum = levelNum;
+        this.prices = new double[levelNum];
+        for (int i = 0; i < levelNum; i++) {
+            this.prices[i] = prices[i];
+            System.out.println("Level " + i + ", price set to " + this.prices[i]);
+        }
+    }
 
-   public abstract int getLevel(double... params);
+    public abstract int getLevel(double... params);
 
-   public abstract String getLevelLabel(int level);
+    public abstract int getLevel(C crop);
 
-   public double getPrice(int level, int param) {
-      return prices[level] + adjust(param);
-   }
+    public abstract String getLevelLabel(int level);
 
-   public abstract double getBeanCoin(int level, int param);
+    public double getUnitPrice(int level, double param) {
+        return prices[level] + adjust(param);
+    }
 
-   public abstract double adjust(int params);
+    public abstract double getTotalPrice(C crop);
+
+    public abstract double getTotalBeancoin(int level, Farmer farmer);
+
+    public abstract double adjust(double params);
 
 }

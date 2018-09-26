@@ -15,6 +15,7 @@
  */
 package tech.metacontext.beancoin.common.model.abs;
 
+import tech.metacontext.beancoin.common.model.BeanCoin;
 import tech.metacontext.beancoin.common.model.Contract;
 
 /**
@@ -24,11 +25,11 @@ import tech.metacontext.beancoin.common.model.Contract;
 public class Member {
 
     protected String id;
-    protected Contract contract;
+    protected double cash;
+    protected BeanCoin beanCoin;
 
-    public Member(String id, Contract contract) {
+    public Member(String id) {
         this.id = id;
-        this.contract = contract;
     }
 
     public String getId() {
@@ -39,12 +40,26 @@ public class Member {
         this.id = id;
     }
 
-    public Contract getContract() {
-        return contract;
+    public double getCash() {
+        return cash;
     }
 
-    public void setContract(Contract contract) {
-        this.contract = contract;
+    public void setCash(double cash) {
+        this.cash = cash;
+    }
+
+    public double spendCash(double cashSpent) {
+        double result = this.cash - cashSpent;
+        this.cash = (result < 0.0) ? 0.0 : result;
+        return result;
+    }
+
+    public BeanCoin getBeanCoin() {
+        return beanCoin;
+    }
+
+    public void setBeanCoin(BeanCoin beanCoin) {
+        this.beanCoin = beanCoin;
     }
 
 }

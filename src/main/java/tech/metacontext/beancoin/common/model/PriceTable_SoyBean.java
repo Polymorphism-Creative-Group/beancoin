@@ -22,7 +22,7 @@ import tech.metacontext.beancoin.common.model.abs.PriceTable;
  *
  * @author Jonathan Chang, Chun-yien <ccy@musicapoetica.org>
  */
-public class PriceTable_SoyBean extends PriceTable {
+public class PriceTable_SoyBean extends PriceTable<Crop_SoyBean> {
 
     private static PriceTable_SoyBean instance;
 
@@ -63,13 +63,31 @@ public class PriceTable_SoyBean extends PriceTable {
     }
 
     @Override
-    public double adjust(int param) {
-        return (param < 5) ? 0.0 : -5.0;
+    public int getLevel(Crop_SoyBean crop) {
+        return getLevel(crop.getImpurity(), crop.getMoisture());
     }
 
     @Override
-    public double getBeanCoin(int level, int param) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public double adjust(double param) {
+        return (param < 5) ? 0.0 : -5.0;
+    }
+
+    public double adjust(Crop_SoyBean crop) {
+        return adjust(crop.getTurbidity());
+    }
+
+    @Override
+    public double getTotalBeancoin(int level, Farmer farmer) {
+        double beancoin = cashPerUnit / BeanCoin.getRatio() * farmer.getField().getSize();
+        beancoin *= (level == 0) ? 1.05 : 1;
+        beancoin += 300 * ((farmer.isEquippedIoT()) ? 1 : 0);
+        return beancoin;
+    }
+
+    @Override
+    public double getTotalPrice(Crop_SoyBean crop) {
+        int level = getLevel(crop);
+        return getUnitPrice(level, crop.getTurbidity()) * crop.getAmount();
     }
 
 }

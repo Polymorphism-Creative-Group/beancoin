@@ -17,7 +17,7 @@ package tech.metacontext.beancoin.common.model;
 
 import java.util.HashMap;
 import java.util.Map;
-import static tech.metacontext.beancoin.common.Settings.materials;
+import static tech.metacontext.beancoin.common.Settings.*;
 import tech.metacontext.beancoin.common.model.abs.Field;
 import tech.metacontext.beancoin.common.model.abs.Crop;
 import tech.metacontext.beancoin.common.model.abs.Member;
@@ -29,73 +29,69 @@ import tech.metacontext.beancoin.common.model.abs.Member;
  */
 public class Farmer<C extends Crop> extends Member {
 
-   private Field<C> field;
-   private double cash;
-   private BeanCoin beanCoin;
-   private boolean equippedIoT;
-   private Map<Material, Double> inventory;
+    protected Contract<C> contract;
+    private Field<C> field;
+    private boolean equippedIoT;
+    private Map<Material, Double> inventory;
 
-   public Farmer(String id, Contract contract, Field<C> field) {
-      super(id, contract);
-      this.field = field;
-      this.cash = 60000.0 * field.getSize();
-      this.beanCoin = new BeanCoin(0.0);
-      this.inventory = new HashMap<>();
-   }
+    public Farmer(String id, Contract contract, Field<C> field) {
+        super(id);
+        this.contract = contract;
+        this.field = field;
+        this.cash = 60000.0 * field.getSize();
+        this.beanCoin = new BeanCoin(0.0);
+        this.inventory = new HashMap<>();
+        this.inventory.put(materials.get(0), 0.0);
+        this.inventory.put(materials.get(1), 0.0);
+        this.inventory.put(materials.get(2), 0.0);
+    }
 
-   public Field<C> getField() {
-      return field;
-   }
+    public Contract getContract() {
+        return contract;
+    }
 
-   public void setField(Field<C> field) {
-      this.field = field;
-   }
+    public void setContract(Contract contract) {
+        this.contract = contract;
+    }
 
-   public double getCash() {
-      return cash;
-   }
+    public Field<C> getField() {
+        return field;
+    }
 
-   public void setCash(double cash) {
-      this.cash = cash;
-   }
+    public void setField(Field<C> field) {
+        this.field = field;
+    }
 
-   public BeanCoin getBeanCoin() {
-      return beanCoin;
-   }
+    public boolean isEquippedIoT() {
+        return equippedIoT;
+    }
 
-   public void setBeanCoin(BeanCoin beanCoin) {
-      this.beanCoin = beanCoin;
-   }
+    public void setEquippedIoT(boolean equippedIoT) {
+        this.equippedIoT = equippedIoT;
+    }
 
-   public boolean isEquippedIoT() {
-      return equippedIoT;
-   }
+    @Override
+    public String toString() {
+        String result
+                = "Farmer id = " + this.id + "\n"
+                + "size = " + this.getField().getSize() + "\n"
+                + "cash = " + this.getCash() + "\n"
+                + "bean coin = " + this.getBeanCoin().getAmount();
+        return result;
+    }
 
-   public void setEquippedIoT(boolean equippedIoT) {
-      this.equippedIoT = equippedIoT;
-   }
+    public Map<Material, Double> getInventory() {
+        return inventory;
+    }
 
-   @Override
-   public String toString() {
-      String result
-              = "Farmer id = " + this.id + "\n"
-              + "size = " + this.getField().getSize() + "\n"
-              + "cash = " + this.getCash() + "\n"
-              + "bean coin = " + this.getBeanCoin().getAmount();
-      return result;
-   }
+    public void setInventory(Map<Material, Double> inventory) {
+        this.inventory = inventory;
+    }
 
-   public Map<Material, Double> getInventory() {
-      return inventory;
-   }
-
-   public void setInventory(Map<Material, Double> inventory) {
-      this.inventory = inventory;
-   }
-
-   public void addInventory(Material m, double amount) {
-      this.inventory.putIfAbsent(m, 0.0);
-      this.inventory.put(m, this.inventory.get(m) + amount);
-   }
+    public void addInventory(Material m, double amount) {
+        this.inventory.putIfAbsent(m, 0.0);
+        this.inventory.put(m, this.inventory.get(m) + amount);
+        System.out.println("Add " + amount + " of " + m.getName() + " to Farmer " + id);
+    }
 
 }
