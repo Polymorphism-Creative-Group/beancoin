@@ -266,6 +266,7 @@ public class APIImpl implements API {
    public JSONObject getTransactions(JSONObject params) {
       JSONObject retVal = new JSONObject();
       try {
+         final String farmer_id = (params.has("farmer_id")) ? params.getString("farmer_id") : null;
          JSONArray array = new JSONArray();
          transactions.forEach((Transaction t) -> {
             JSONObject transaction = new JSONObject()
@@ -275,7 +276,9 @@ public class APIImpl implements API {
                     .put("production", t.getCrop().getAmount())
                     .put("cash", t.getCash())
                     .put("beancoin", t.getBeancoin());
-            array.put(transaction);
+            if (farmer_id == null || t.getFarmer().getId().equals(farmer_id)) {
+               array.put(transaction);
+            }
          });
          retVal.put("transactions", array);
          retVal.put("message", "API: getTransactions successful.");
