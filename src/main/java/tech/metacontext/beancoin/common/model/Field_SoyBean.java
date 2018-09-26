@@ -15,7 +15,7 @@
  */
 package tech.metacontext.beancoin.common.model;
 
-import static tech.metacontext.beancoin.common.model.Settings.*;
+import static tech.metacontext.beancoin.common.Settings.*;
 import tech.metacontext.beancoin.common.model.abs.Field;
 
 /**
@@ -24,20 +24,21 @@ import tech.metacontext.beancoin.common.model.abs.Field;
  */
 public class Field_SoyBean extends Field<Crop_SoyBean> {
 
-    public Field_SoyBean(double size) {
-        super(size);
-    }
+   public Field_SoyBean(double size) {
+      super(size);
+   }
 
-    @Override
-    public Crop_SoyBean produce() {
-        double amount = randomAmount();
-        Crop_SoyBean soyBean = new Crop_SoyBean(amount, 11, 1, 4);
-        return soyBean;
-    }
+   @Override
+   public Crop_SoyBean produce(Material... materials) {
+      
+      double amount = randomAmount();
+      Crop_SoyBean soyBean = new Crop_SoyBean(amount, 11, 1, 4);
+      return soyBean;
+   }
 
-    private double randomAmount() {
-        double r = field_production_adjust(this.getSize());
-        return Math.floor(this.getSize() * (unit_production + unit_production_variation * r));
-    }
+   private double randomAmount() {
+      double r = field_production_adjust(this.getSize());
+      return Math.floor(this.getSize() * (unit_production + unit_production_variation * r));
+   }
 
 }

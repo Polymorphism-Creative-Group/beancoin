@@ -15,7 +15,7 @@
  */
 package tech.metacontext.beancoin.common.model;
 
-import static tech.metacontext.beancoin.common.model.Settings.*;
+import static tech.metacontext.beancoin.common.Settings.*;
 import tech.metacontext.beancoin.common.model.abs.PriceTable;
 
 /**
@@ -50,11 +50,11 @@ public class PriceTable_SoyBean extends PriceTable {
     @Override
     public int getLevel(double... params) {
         if (params[0] < 0 || params[0] > 3.5) {
-            out.println("夾雜率超標");
+            System.out.println("夾雜率超標");
             return -1;
         }
         if (params[1] < 11 || params[1] > 25) {
-            out.println("含水率超標");
+            System.out.println("含水率超標");
             return -1;
         }
         int x = (int) (params[0] / 0.5);

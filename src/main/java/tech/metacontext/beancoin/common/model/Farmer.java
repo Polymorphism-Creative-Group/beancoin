@@ -15,6 +15,9 @@
  */
 package tech.metacontext.beancoin.common.model;
 
+import java.util.HashMap;
+import java.util.Map;
+import static tech.metacontext.beancoin.common.Settings.materials;
 import tech.metacontext.beancoin.common.model.abs.Field;
 import tech.metacontext.beancoin.common.model.abs.Crop;
 import tech.metacontext.beancoin.common.model.abs.Member;
@@ -26,48 +29,73 @@ import tech.metacontext.beancoin.common.model.abs.Member;
  */
 public class Farmer<C extends Crop> extends Member {
 
-    private Field<C> field;
-    private double cash;
-    private BeanCoin beanCoin;
-    private boolean equippedIoT;
+   private Field<C> field;
+   private double cash;
+   private BeanCoin beanCoin;
+   private boolean equippedIoT;
+   private Map<Material, Double> inventory;
 
-    public Farmer(String id, Contract contract, Field<C> field) {
-        super(id, contract);
-        this.field = field;
-        this.cash = 60000.0 * field.getSize();
-        this.beanCoin = new BeanCoin(0.0);
-    }
+   public Farmer(String id, Contract contract, Field<C> field) {
+      super(id, contract);
+      this.field = field;
+      this.cash = 60000.0 * field.getSize();
+      this.beanCoin = new BeanCoin(0.0);
+      this.inventory = new HashMap<>();
+   }
 
-    public Field<C> getField() {
-        return field;
-    }
+   public Field<C> getField() {
+      return field;
+   }
 
-    public void setField(Field<C> field) {
-        this.field = field;
-    }
+   public void setField(Field<C> field) {
+      this.field = field;
+   }
 
-    public double getCash() {
-        return cash;
-    }
+   public double getCash() {
+      return cash;
+   }
 
-    public void setCash(double cash) {
-        this.cash = cash;
-    }
+   public void setCash(double cash) {
+      this.cash = cash;
+   }
 
-    public BeanCoin getBeanCoin() {
-        return beanCoin;
-    }
+   public BeanCoin getBeanCoin() {
+      return beanCoin;
+   }
 
-    public void setBeanCoin(BeanCoin beanCoin) {
-        this.beanCoin = beanCoin;
-    }
+   public void setBeanCoin(BeanCoin beanCoin) {
+      this.beanCoin = beanCoin;
+   }
 
-    public boolean isEquippedIoT() {
-        return equippedIoT;
-    }
+   public boolean isEquippedIoT() {
+      return equippedIoT;
+   }
 
-    public void setEquippedIoT(boolean equippedIoT) {
-        this.equippedIoT = equippedIoT;
-    }
+   public void setEquippedIoT(boolean equippedIoT) {
+      this.equippedIoT = equippedIoT;
+   }
+
+   @Override
+   public String toString() {
+      String result
+              = "Farmer id = " + this.id + "\n"
+              + "size = " + this.getField().getSize() + "\n"
+              + "cash = " + this.getCash() + "\n"
+              + "bean coin = " + this.getBeanCoin().getAmount();
+      return result;
+   }
+
+   public Map<Material, Double> getInventory() {
+      return inventory;
+   }
+
+   public void setInventory(Map<Material, Double> inventory) {
+      this.inventory = inventory;
+   }
+
+   public void addInventory(Material m, double amount) {
+      this.inventory.putIfAbsent(m, 0.0);
+      this.inventory.put(m, this.inventory.get(m) + amount);
+   }
 
 }

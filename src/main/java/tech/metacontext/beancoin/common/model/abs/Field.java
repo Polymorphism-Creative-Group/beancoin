@@ -15,6 +15,8 @@
  */
 package tech.metacontext.beancoin.common.model.abs;
 
+import tech.metacontext.beancoin.common.model.Material;
+
 /**
  *
  * @author Jonathan Chang, Chun-yien <ccy@musicapoetica.org>
@@ -22,19 +24,19 @@ package tech.metacontext.beancoin.common.model.abs;
  */
 public abstract class Field<C extends Crop> {
 
-    private double size;
+   private double size;
 
-    public Field(double size) {
-        this.size = size;
-    }
+   public Field(double size) {
+      this.size = size;
+   }
 
-    public double getSize() {
-        return size;
-    }
+   public double getSize() {
+      return size;
+   }
 
-    public void setSize(double size) {
-        this.size = size;
-    }
+   public void setSize(double size) {
+      this.size = size;
+   }
 
-    public abstract C produce();
+   public abstract C produce(Material... materials);
 }

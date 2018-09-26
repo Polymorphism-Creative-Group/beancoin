@@ -17,8 +17,9 @@ package tech.metacontext.beancoin.common;
 
 import java.util.ArrayList;
 import java.util.List;
-import tech.metacontext.beancoin.common.model.Farmer;
-import static tech.metacontext.beancoin.common.model.Settings.*;
+import tech.metacontext.beancoin.common.model.*;
+import static tech.metacontext.beancoin.common.Settings.*;
+import tech.metacontext.beancoin.common.model.abs.Field;
 
 /**
  *
@@ -26,14 +27,19 @@ import static tech.metacontext.beancoin.common.model.Settings.*;
  */
 public class Main {
 
-    List<Farmer> farmers = new ArrayList<>();
+   List<Farmer> farmers = new ArrayList<>();
 
-    public Main() {
+   public Main() {
 
-    }
+   }
 
-    public static void main(String[] args) {
-//        Main main = new Main();
-        materials.stream().forEach(out::println);
-    }
+   public static void main(String[] args) {
+      Main main = new Main();
+      Contract c = new Contract(PriceTable_SoyBean.getInstance());
+      Field field = new Field_SoyBean(10);
+      Farmer farmer = new Farmer("random id", c, field);
+      main.farmers.add(farmer);
+      System.out.println(farmer);
+      materials.stream().forEach(System.out::println);
+   }
 }

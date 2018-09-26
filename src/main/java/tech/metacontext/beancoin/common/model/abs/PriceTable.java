@@ -15,7 +15,7 @@
  */
 package tech.metacontext.beancoin.common.model.abs;
 
-import static tech.metacontext.beancoin.common.model.Settings.*;
+import static tech.metacontext.beancoin.common.Settings.*;
 
 /**
  *
@@ -23,28 +23,28 @@ import static tech.metacontext.beancoin.common.model.Settings.*;
  */
 public abstract class PriceTable {
 
-    protected int levelNum;  // Good: 0, 1, 2, 3... : Bad
-    protected double[] prices;
+   protected int levelNum;  // Good: 0, 1, 2, 3... : Bad
+   protected double[] prices;
 
-    public PriceTable(int levelNum, double... prices) {
-        this.levelNum = levelNum;
-        this.prices = new double[levelNum];
-        for (int i = 0; i < levelNum; i++) {
-            this.prices[i] = prices[i];
-            out.println("Level " + i + ", price set to " + this.prices[i]);
-        }
-    }
+   public PriceTable(int levelNum, double... prices) {
+      this.levelNum = levelNum;
+      this.prices = new double[levelNum];
+      for (int i = 0; i < levelNum; i++) {
+         this.prices[i] = prices[i];
+         System.out.println("Level " + i + ", price set to " + this.prices[i]);
+      }
+   }
 
-    public abstract int getLevel(double... params);
+   public abstract int getLevel(double... params);
 
-    public abstract String getLevelLabel(int level);
+   public abstract String getLevelLabel(int level);
 
-    public double getPrice(int level, int param) {
-        return prices[level] + adjust(param);
-    }
+   public double getPrice(int level, int param) {
+      return prices[level] + adjust(param);
+   }
 
-    public abstract double getBeanCoin(int level, int param);
+   public abstract double getBeanCoin(int level, int param);
 
-    public abstract double adjust(int params);
+   public abstract double adjust(int params);
 
 }

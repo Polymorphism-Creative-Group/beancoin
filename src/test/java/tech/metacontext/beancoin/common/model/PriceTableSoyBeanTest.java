@@ -21,7 +21,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import static tech.metacontext.beancoin.common.model.Settings.*;
 
 /**
  *
@@ -56,7 +55,7 @@ public class PriceTableSoyBeanTest {
      */
     @Test
     public void testGetLevel() {
-        out.println("getLevel");
+        System.out.println("getLevel");
         double[][] params = {
             {0, 11},
             {0.5, 15},
@@ -68,7 +67,7 @@ public class PriceTableSoyBeanTest {
             double[] param = params[i];
             int result = instance.getLevel(param);
             assertEquals(expResult[i], result);
-            out.printf("Test params = %.1f, %.1f, level = %s, price = %.0f\n",
+            System.out.printf("Test params = %.1f, %.1f, level = %s, price = %.0f\n",
                     param[0], param[1],
                     instance.getLevelLabel(result), instance.getPrice(result, 1));
         }
@@ -79,7 +78,7 @@ public class PriceTableSoyBeanTest {
      */
     @Test
     public void testAdjust() {
-        out.println("adjust");
+        System.out.println("adjust");
         int param;
         double expResult;
         param = 4;
