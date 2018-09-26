@@ -61,12 +61,7 @@ public class APIImpl implements API {
    public JSONObject createFarmer(JSONObject params) {
       JSONObject retVal = new JSONObject();
       try {
-         double size;
-         if (params.has("size")) {
-            size = params.getDouble("size");
-         } else {
-            size = (r.nextInt(100) + 1) / 10.0;
-         }
+         double size = params.has("size") ? params.getDouble("size") : (r.nextInt(100) + 1) / 10.0;
          String id;
          do {
             id = idGenerator(2, 4);
