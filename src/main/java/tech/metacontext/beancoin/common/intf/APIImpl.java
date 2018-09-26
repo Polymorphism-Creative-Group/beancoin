@@ -24,10 +24,13 @@ import java.util.logging.Level;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import static tech.metacontext.beancoin.common.Settings.logger;
+import static tech.metacontext.beancoin.common.Settings.materials;
 import tech.metacontext.beancoin.common.model.BeanCoin;
 import tech.metacontext.beancoin.common.model.Contract;
+import tech.metacontext.beancoin.common.model.Crop_SoyBean;
 import tech.metacontext.beancoin.common.model.Farmer;
 import tech.metacontext.beancoin.common.model.Field_SoyBean;
+import tech.metacontext.beancoin.common.model.Material;
 import tech.metacontext.beancoin.common.model.PriceTable_SoyBean;
 import tech.metacontext.beancoin.common.model.Transaction;
 import tech.metacontext.beancoin.common.model.abs.Field;
@@ -157,6 +160,22 @@ public class APIImpl implements API {
     public JSONObject produceCrop(JSONObject params) {
         JSONObject retVal = new JSONObject();
         try {
+            if (params.has("id")) {
+                String farmer_id = params.getString("id");
+                Farmer<Crop_SoyBean> farmer = sessions.get(farmer_id);
+                Crop_SoyBean crop = farmer.getField().produce(farmer);
+                if (crop == null) {
+                    throw new Exception("API: Not enough funds.");
+                }
+                Transaction transaction = new Transaction(idGenerator(3, 7), farmer, crop);
+                transactions.add(transaction);
+                retVal.put("farmer_id", farmer_id)
+                        .put("transaction_id", transaction.getId())
+                        .put("crop_amount", crop.getAmount())
+                        .put("crop_level", farmer.getContract().getPriceTable().getLevel(crop))
+                        .put("cash_earned", transaction.getCash())
+                        .put("beancoin_earned", transaction.getBeancoin());
+            }
         } catch (Exception ex) {
             logger.log(Level.SEVERE, "Exception", ex);
             return retVal.put("error", ex.getClass().getSimpleName())
@@ -183,6 +202,28 @@ public class APIImpl implements API {
     public JSONObject manageMaterial(JSONObject params) {
         JSONObject retVal = new JSONObject();
         try {
+            if (params.has("id") && params.has("material_id") && params.has("amount")) {
+                String id = params.getString("id");
+                int material_id = params.getInt("material_id");
+                double amount = params.getDouble("amount");
+                Farmer farmer = sessions.get(id);
+                Material material = materials.get(material_id);
+                if (farmer == null || material == null) {
+                    throw new Exception("Farmer id or Material id not exists.");
+                }
+                retVal.put("id", id)
+                        .put("material", material.getName())
+                        .put("amount", amount)
+                        .put("unit_price", material.getPrice());
+                JSONObject retBuyMaterial = farmer.buyMaterial(material, amount);
+                if (retBuyMaterial == null) {
+                    throw new Exception("API: not enough funds.");
+                }
+                retVal.put("beancoin_spent", retBuyMaterial.getDouble("beancoin_spent"))
+                        .put("cash_spent", retBuyMaterial.getDouble("cash_spent"));
+            } else {
+                throw new Exception("API: params required.");
+            }
         } catch (Exception ex) {
             logger.log(Level.SEVERE, "Exception", ex);
             return retVal.put("error", ex.getClass().getSimpleName())

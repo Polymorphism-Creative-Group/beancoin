@@ -22,6 +22,14 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import static tech.metacontext.beancoin.common.Settings.materials;
+import tech.metacontext.beancoin.common.model.Contract;
+import tech.metacontext.beancoin.common.model.Crop_SoyBean;
+import tech.metacontext.beancoin.common.model.Farmer;
+import tech.metacontext.beancoin.common.model.Field_SoyBean;
+import tech.metacontext.beancoin.common.model.PriceTable_SoyBean;
+import tech.metacontext.beancoin.common.model.Transaction;
+import tech.metacontext.beancoin.common.model.abs.Field;
 
 /**
  *
@@ -160,15 +168,24 @@ public class APIImplTest {
      * Test of getTransaction method, of class APIImpl.
      */
     @Test
-    public void testGetTransaction() {
-        System.out.println("getTransaction");
-        JSONObject params = null;
-        APIImpl instance = new APIImpl();
-        JSONObject expResult = null;
-        JSONObject result = instance.getTransactions(params);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testGetTransactions() {
+        System.out.println("getTransactions");
+        double size = 10.0;
+        String farmer_id = instance.createFarmer(new JSONObject().put("size", size))
+                .getString("id");
+        int expResult = 2;
+        JSONObject params = new JSONObject().put("id", farmer_id);
+        for (int i = 0; i < expResult; i++) {
+            instance.manageMaterial(params.put("material_id", 0).put("amount", size));
+            instance.manageMaterial(params.put("material_id", 1).put("amount", size));
+            instance.manageMaterial(params.put("material_id", 2).put("amount", size));
+            JSONObject result = instance.produceCrop(params);
+            System.out.println(result.toString(2));
+            System.out.println(instance.getFarmer(params));
+        }
+        JSONObject transactions = instance.getTransactions(new JSONObject());
+//        System.out.println(transactions.toString());
+        assertEquals(expResult, transactions.getJSONArray("transactions").length());
     }
 
     /**

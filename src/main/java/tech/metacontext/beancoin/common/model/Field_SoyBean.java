@@ -31,6 +31,7 @@ public class Field_SoyBean extends Field<Crop_SoyBean> {
     @Override
     public Crop_SoyBean produce(Farmer farmer) {
         if (!checkMaterial(farmer)) {
+            System.out.println("** Insufficient materials **");
             return null;
         }
         farmer.addInventory(materials.get(0), -this.getSize());
@@ -38,15 +39,16 @@ public class Field_SoyBean extends Field<Crop_SoyBean> {
         farmer.addInventory(materials.get(2), -this.getSize());
 
         double totalFarmingFee = unitFarmingFee * farmer.getField().getSize();
-        double farmingFee = BeanCoin.beanCoinToCash(
-                farmer.getBeanCoin().spend(BeanCoin.cashToBeanCoin(totalFarmingFee)));
-        farmer.spendCash(farmingFee);
+        double s = farmer.getBeanCoin().spend(BeanCoin.cashToBeanCoin(totalFarmingFee));
+        if (s < 0) {
+            farmer.spendCash(BeanCoin.beanCoinToCash(-s));
+        }
 
         double amount = randomAmount();
         double moisture = randomMoisture();
         double impurity = randomImpurity();
         double turbidity = randomTurbidity();
-        
+
         Crop_SoyBean soyBean = new Crop_SoyBean(amount, moisture, impurity, turbidity);
         return soyBean;
     }

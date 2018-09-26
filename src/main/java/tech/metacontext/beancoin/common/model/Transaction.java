@@ -40,6 +40,8 @@ public class Transaction {
         PriceTable priceTable = farmer.getContract().getPriceTable();
         this.cash = priceTable.getTotalPrice(crop);
         this.beancoin = priceTable.getTotalBeancoin(priceTable.getLevel(crop), farmer);
+        farmer.addCash(this.cash);
+        farmer.getBeanCoin().addAmount(this.beancoin);
     }
 
     public String getId() {

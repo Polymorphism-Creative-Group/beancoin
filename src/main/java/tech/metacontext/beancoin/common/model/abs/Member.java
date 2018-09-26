@@ -48,6 +48,11 @@ public class Member {
         this.cash = cash;
     }
 
+    public double addCash(double amount) {
+        this.cash += amount;
+        return this.cash;
+    }
+
     public double spendCash(double cashSpent) {
         double result = this.cash - cashSpent;
         this.cash = (result < 0.0) ? 0.0 : result;

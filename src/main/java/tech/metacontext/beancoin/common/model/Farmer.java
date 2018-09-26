@@ -17,6 +17,7 @@ package tech.metacontext.beancoin.common.model;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.json.JSONObject;
 import static tech.metacontext.beancoin.common.Settings.*;
 import tech.metacontext.beancoin.common.model.abs.Field;
 import tech.metacontext.beancoin.common.model.abs.Crop;
@@ -34,7 +35,7 @@ public class Farmer<C extends Crop> extends Member {
     private boolean equippedIoT;
     private Map<Material, Double> inventory;
 
-    public Farmer(String id, Contract contract, Field<C> field) {
+    public Farmer(String id, Contract<C> contract, Field<C> field) {
         super(id);
         this.contract = contract;
         this.field = field;
@@ -94,4 +95,22 @@ public class Farmer<C extends Crop> extends Member {
         System.out.println("Add " + amount + " of " + m.getName() + " to Farmer " + id);
     }
 
+    public JSONObject buyMaterial(Material m, double amount) {
+        double price = m.getPrice() * amount;
+        double totalAsset = this.cash + this.beanCoin.getCash();
+        if (totalAsset < price) {
+            return null;
+        }
+        double beancoinSpent = BeanCoin.cashToBeanCoin(price);
+        double s = this.beanCoin.spend(beancoinSpent);
+        if (s < 0) {
+            beancoinSpent += s;
+        }
+        double cashSpent = BeanCoin.beanCoinToCash(s);
+        this.spendCash(cashSpent);
+        addInventory(m, amount);
+        return new JSONObject()
+                .put("beancoin_spent", beancoinSpent)
+                .put("cash_spent", cashSpent);
+    }
 }
